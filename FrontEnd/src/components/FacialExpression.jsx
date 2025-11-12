@@ -4,7 +4,7 @@ import { Camera, CameraOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import MoodSongs from "./MoodSongs";
 
-export default function FaceDetector() {
+export default function FaceDetector({mood,onMoodChange}) {
   const videoRef = useRef(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [modelsLoaded, setModelsLoaded] = useState(false);
@@ -12,7 +12,7 @@ export default function FaceDetector() {
   const [cameraOn, setCameraOn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [mood, setMood] = useState("neutral");
+  
   const [moodLabel, setMoodLabel] = useState("😶 Waiting...");
   const intervalRef = useRef(null);
 
@@ -88,10 +88,10 @@ export default function FaceDetector() {
           neutral: "😐 Neutral",
         };
 
-        setMood(detectedMood);
+        onMoodChange(detectedMood);
         setMoodLabel(moodMap[detectedMood] || "😶 Unknown");
       } else {
-        setMood("neutral");
+        onMoodChange("neutral");
         setMoodLabel("😶 No face detected");
       }
     }, 800);
@@ -119,7 +119,7 @@ export default function FaceDetector() {
           className="flex flex-col items-center gap-6 text-center"
         >
           <h1 className="text-3xl font-semibold tracking-wide">
-            🎥 Face Detection Access
+            🎥 Face Detection Access 
           </h1>
           <p className="text-gray-300 max-w-md">
             We need your permission to access your camera for mood detection.
@@ -175,7 +175,7 @@ export default function FaceDetector() {
                     : "bg-green-600 hover:bg-green-500 shadow-lg"
                 }`}
               >
-                Start Detection
+                Start Detection 
               </button>
 
               <button
@@ -207,6 +207,7 @@ export default function FaceDetector() {
               }`}
             >
               Current Mood: <span className="font-bold">{moodLabel}</span>
+              
             </motion.div>
           </motion.div>
 
